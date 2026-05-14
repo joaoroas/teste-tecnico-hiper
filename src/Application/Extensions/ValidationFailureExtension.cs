@@ -1,7 +1,7 @@
-﻿using FluentValidation.Results;
-using WebApi.Models.Error;
+﻿using Domain.Models.Error;
+using FluentValidation.Results;
 
-namespace WebApi.Extensions
+namespace Application.Extensions
 {
     public static class ValidationFailureExtension
     {

@@ -1,4 +1,4 @@
-﻿namespace WebApi.Models.Error
+﻿namespace Domain.Models.Error
 {
     public class CustomValidationFailure
     {

@@ -1,10 +1,13 @@
 <Solution>
+  <Folder Name="/Solution Items/" />
   <Folder Name="/src/">
     <Project Path="Application/Application.csproj" Id="9964b70b-6511-48cb-af8a-a9216daeb49a" />
     <Project Path="Domain/Domain.csproj" Id="2ce49823-59ac-43de-a7bf-7ada343a083d" />
     <Project Path="Infrastructure/Infrastructure.csproj" Id="7c9c7b45-4e95-493e-af53-3e65ceb70e6b" />
     <Project Path="WebApi/WebApi.csproj" />
-    <Project Path="Worker/Worker.csproj" Id="7727e596-189c-437d-a9a1-27ea711c4a81" />
   </Folder>
   <Folder Name="/tests/" />
+  <Project Path="docker-compose.dcproj">
+    <Build />
+  </Project>
 </Solution>

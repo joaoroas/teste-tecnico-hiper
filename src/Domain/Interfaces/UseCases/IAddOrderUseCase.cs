@@ -1,9 +1,11 @@
-﻿using Domain.Entities;
+﻿using Domain.Models.Entities;
+using Domain.Models.Requests;
+using Domain.Models.Response;
 
 namespace Domain.Interfaces.UseCases
 {
     public interface IAddOrderUseCase
     {
-        Task AddOrderAsync(Order order);
+        Task<Result<Order>> AddOrderAsync(AddOrderRequest request);
     }
 }
