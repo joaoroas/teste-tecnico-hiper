@@ -11,21 +11,21 @@ namespace Application.UseCases
     public class AddOrderUseCase : IAddOrderUseCase
     {
         private readonly IOrderRepository _orderRepository;
-        private readonly IValidator<AddOrderRequest> _addOrderRequestValidator;
+        private readonly IValidator<AddOrderRequest> _validator;
 
 
         public AddOrderUseCase(IOrderRepository orderRepository, 
-                               IValidator<AddOrderRequest> addOrderRequestValidator)
+                               IValidator<AddOrderRequest> validator)
         {
             _orderRepository = orderRepository;
-            _addOrderRequestValidator = addOrderRequestValidator;
+            _validator = validator;
         }
 
         public async Task<Result<Order>> AddOrderAsync(AddOrderRequest request)
         {
             try
             {
-                var validationResult = await _addOrderRequestValidator.ValidateAsync(request);
+                var validationResult = await _validator.ValidateAsync(request);
 
                 if (!validationResult.IsValid)
                 {

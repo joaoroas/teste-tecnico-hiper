@@ -16,8 +16,11 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 builder.Services.AddScoped<IAddOrderUseCase, AddOrderUseCase>();
 builder.Services.AddScoped<IGetOrderUseCase, GetOrderUseCase>();
+builder.Services.AddScoped<IUpdateOrderUseCase, UpdateOrderUseCase>();
+builder.Services.AddScoped<IDeleteOrderUseCase, DeleteOrderUseCase>();
 
 builder.Services.AddTransient<IValidator<AddOrderRequest>, AddOrderRequestValidator>();
+builder.Services.AddTransient<IValidator<UpdateOrderRequest>, UpdateOrderRequestValidator>();
 
 builder.Services.AddControllers();
 

@@ -13,14 +13,17 @@ namespace WebApi.Controllers
         private readonly IAddOrderUseCase _addOrderUseCase;
         private readonly IGetOrderUseCase _getOrderUseCase;
         private readonly IUpdateOrderUseCase _updateOrderUseCase;
+        private readonly IDeleteOrderUseCase _deleteOrderUseCase;
 
         public OrdersController(IAddOrderUseCase addOrderUseCase,
                                 IGetOrderUseCase getOrderUseCase,
-                                IUpdateOrderUseCase updateOrderUseCase)
+                                IUpdateOrderUseCase updateOrderUseCase,
+                                IDeleteOrderUseCase deleteOrderUseCase)
         {
             _addOrderUseCase = addOrderUseCase;
             _getOrderUseCase = getOrderUseCase;
             _updateOrderUseCase = updateOrderUseCase;
+            _deleteOrderUseCase = deleteOrderUseCase;
         }
 
         [HttpGet("Orders")]
@@ -48,7 +51,6 @@ namespace WebApi.Controllers
         [HttpPost("Order")]
         public async Task<IActionResult> AddOrder(AddOrderRequest request)
         {
-
             var result = await _addOrderUseCase.AddOrderAsync(request);
 
             if (!result.Success)
@@ -58,37 +60,25 @@ namespace WebApi.Controllers
         }
 
         [HttpPut("Order")]
-        public async Task<IActionResult> UpdateOrder(UpdateOrderRequest request)
+        public async Task<IActionResult> UpdateOrder(UpdateOrderRequest updatRequest)
         {
-            var validationResult = await _addOrderRequestValidator.ValidateAsync(request);
+            var result = await _updateOrderUseCase.UpdateOrderAsync(updatRequest);
 
-            if (!validationResult.IsValid)
-            {
-                return BadRequest(validationResult.Errors.ToCustomValidationFailures());
-            }
+            if (!result.Success)
+                return BadRequest(result);
 
-            var order = new Order(request.CustomerName, request.ProductName, request.Amount);
-
-            await _updateOrderUseCase.UpdateOrderAsync(order);
-
-            return Created("", order);
+            return Ok(result);
         }
 
-        //[HttpDelete("Order/{id}")]
-        //public async Task<IActionResult> DeleteOrder(int orderId)
-        //{
-        //    //var validationResult = await _addOrderRequestValidator.ValidateAsync(request);
+        [HttpDelete("Order/{orderId}")]
+        public async Task<IActionResult> DeleteOrder(int orderId)
+        {
+            var result = await _deleteOrderUseCase.DeleteOrderAsync(orderId);
 
-        //    //if (!validationResult.IsValid)
-        //    //{
-        //    //    return BadRequest(validationResult.Errors.ToCustomValidationFailures());
-        //    //}
+            if (!result.Success)
+                return BadRequest(result);
 
-        //    //var order = new Order(request.CustomerName, request.ProductName, request.Amount);
-
-        //    //await _addOrderUseCase.AddOrderAsync(order);
-
-        //    return Created();
-        //}
+            return Ok(result);
+        }
     }
 }

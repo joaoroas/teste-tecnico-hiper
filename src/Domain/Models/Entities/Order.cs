@@ -22,6 +22,13 @@ namespace Domain.Models.Entities
         public DateTime CreatedAt { get; private set; }
 
 
+        public void UpdateDetails(string newName, string newProduct, decimal newAmount)
+        {
+
+            CustomerName = newName;
+            ProductName = newProduct;
+            Amount = newAmount;
+        }
         private void SetOrderStatus(OrderStatus orderStatus)
         {
             OrderStatus = orderStatus;

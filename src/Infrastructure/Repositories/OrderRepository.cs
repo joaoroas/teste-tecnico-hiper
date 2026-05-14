@@ -74,14 +74,40 @@ namespace Infrastructure.Repositories
             }
         }
 
-        public Task UpdateOrderAsync(Order order)
+        public async Task UpdateOrderAsync(Order order)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var query = @"UPDATE Orders 
+                      SET CustomerName = @CustomerName, 
+                          ProductName = @ProductName, 
+                          Amount = @Amount 
+                      WHERE OrderId = @OrderId";
+
+                using var connection = _dbContext.CreateConnection();
+
+                await connection.ExecuteAsync(query, order);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
-        public Task DeleteOrderByIdAsync(int orderId)
+        public async Task DeleteOrderByIdAsync(int orderId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                const string sql = "DELETE FROM Orders WHERE OrderId = @orderId";
+
+                using var connection = _dbContext.CreateConnection();
+
+                await connection.ExecuteAsync(sql, new { orderId });
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

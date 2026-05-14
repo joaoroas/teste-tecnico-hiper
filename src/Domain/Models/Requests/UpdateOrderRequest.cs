@@ -2,5 +2,6 @@
 {
     public class UpdateOrderRequest : AddOrderRequest
     {
+        public  int OrderId { get; set; }
     }
 }
