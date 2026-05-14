@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces.Repositories;
+﻿using Domain.Enums;
+using Domain.Interfaces.Repositories;
 using Domain.Interfaces.UseCases;
 using Domain.Models.Response;
 
@@ -24,6 +25,11 @@ namespace Application.UseCases
 
                 if (order == null)
                     return Result<string>.Error($"Pedido número {orderId} não encontrado");
+
+
+                if (order.OrderStatus != OrderStatus.Received)
+                    return Result<string>.Error($"Pedido já em processamento, não pode ser atualizado.");
+
 
                 await _orderRepository.DeleteOrderByIdAsync(orderId);
 

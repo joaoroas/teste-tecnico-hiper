@@ -18,7 +18,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var query = "INSERT INTO Orders (CustomerName, ProductName, Amount, OrderStatus, CreatedAt) VALUES (@CustomerName, @ProductName, @Amount, @OrderStatus, @CreatedAt)";
+                var query = "INSERT INTO Orders (OrderId, CustomerName, ProductName, Amount, OrderStatus, CreatedAt) VALUES (@OrderId, @CustomerName, @ProductName, @Amount, @OrderStatus, @CreatedAt)";
 
                 var parameters = new DynamicParameters();
                 parameters.Add("@CustomerName", order.CustomerName);
@@ -26,6 +26,7 @@ namespace Infrastructure.Repositories
                 parameters.Add("@Amount", order.Amount);
                 parameters.Add("@OrderStatus", order.OrderStatus);
                 parameters.Add("@CreatedAt", order.CreatedAt);
+                parameters.Add("@OrderId", order.OrderId);
 
                 using var connection = _dbContext.CreateConnection();
 
@@ -42,7 +43,7 @@ namespace Infrastructure.Repositories
         {
             try
             {
-                var query = "SELECT OrderId, CustomerName, ProductName, Amount, OrderStatus, CreatedAt FROM Orders"; ;
+                var query = "SELECT OrderId, CustomerName, ProductName, Amount, OrderStatus, CreatedAt FROM Orders"; 
 
                 using var connection = _dbContext.CreateConnection();
 

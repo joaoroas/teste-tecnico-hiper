@@ -1,11 +1,15 @@
 using Application.Models.Validations;
 using Application.UseCases;
+using Domain.Interfaces.Messaging;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.UseCases;
 using Domain.Models.Requests;
 using FluentValidation;
 using Infrastructure.DbContext;
+using Infrastructure.Messaging.Configuration;
+using Infrastructure.Messaging.Producers;
 using Infrastructure.Repositories;
+using Infrastructure.Settings;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +18,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<IDbContext, DbContext>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
+builder.Services.AddScoped<IOrderProducer, OrderProducer>();
+
+builder.Services.AddScoped<IRabbitMqConfiguration, RabbitMqConfiguration>();
+
 builder.Services.AddScoped<IAddOrderUseCase, AddOrderUseCase>();
 builder.Services.AddScoped<IGetOrderUseCase, GetOrderUseCase>();
 builder.Services.AddScoped<IUpdateOrderUseCase, UpdateOrderUseCase>();
@@ -21,6 +29,8 @@ builder.Services.AddScoped<IDeleteOrderUseCase, DeleteOrderUseCase>();
 
 builder.Services.AddTransient<IValidator<AddOrderRequest>, AddOrderRequestValidator>();
 builder.Services.AddTransient<IValidator<UpdateOrderRequest>, UpdateOrderRequestValidator>();
+
+builder.Services.AddOptions<RabbitMqSettings>().BindConfiguration("RabbitMq");
 
 builder.Services.AddControllers();
 

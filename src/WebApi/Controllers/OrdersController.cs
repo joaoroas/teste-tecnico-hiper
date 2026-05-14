@@ -1,8 +1,5 @@
-﻿using Application.Extensions;
-using Domain.Interfaces.UseCases;
-using Domain.Models.Entities;
+﻿using Domain.Interfaces.UseCases;
 using Domain.Models.Requests;
-using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers

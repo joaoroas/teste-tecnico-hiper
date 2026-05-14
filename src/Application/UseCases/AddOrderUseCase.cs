@@ -1,7 +1,9 @@
 ﻿using Application.Extensions;
+using Domain.Interfaces.Messaging;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.UseCases;
 using Domain.Models.Entities;
+using Domain.Models.Messaging;
 using Domain.Models.Requests;
 using Domain.Models.Response;
 using FluentValidation;
@@ -12,13 +14,16 @@ namespace Application.UseCases
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IValidator<AddOrderRequest> _validator;
+        private readonly IOrderProducer _orderProducer;
 
 
-        public AddOrderUseCase(IOrderRepository orderRepository, 
-                               IValidator<AddOrderRequest> validator)
+        public AddOrderUseCase(IOrderRepository orderRepository,
+                               IValidator<AddOrderRequest> validator,
+                               IOrderProducer orderProducer)
         {
             _orderRepository = orderRepository;
             _validator = validator;
+            _orderProducer = orderProducer;
         }
 
         public async Task<Result<Order>> AddOrderAsync(AddOrderRequest request)
@@ -38,7 +43,11 @@ namespace Application.UseCases
 
                 await _orderRepository.AddOrderAsync(order);
 
-                return Result<Order>.Ok("Pedido criado com sucesso", order);
+                var orderMessage = new OrderMessage { OrderId = order.OrderId };
+
+                await _orderProducer.SendMessageAsync(orderMessage);
+
+                return Result<Order>.Ok(responseData: order);
             }
             catch (Exception ex)
             {

@@ -12,6 +12,7 @@ services:
       - "5000:8080"
     depends_on:
       - sqlserver
+      - rabbitmq
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
@@ -20,3 +21,11 @@ services:
       MSSQL_PID: "Developer"
     ports:
       - "1433:1433"
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"   # Porta do Protocolo AMQP
+      - "15672:15672" # Porta da Interface Web
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
