@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces.Messaging;
+using Infrastructure.Interfaces;
 using Infrastructure.Settings;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;

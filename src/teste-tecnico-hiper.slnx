@@ -6,6 +6,7 @@
     <Project Path="Infrastructure/Infrastructure.csproj" Id="7c9c7b45-4e95-493e-af53-3e65ceb70e6b" />
     <Project Path="WebApi/WebApi.csproj" />
   </Folder>
+  <Folder Name="/src/webapi-front-end/" />
   <Folder Name="/tests/" />
   <Project Path="docker-compose.dcproj">
     <Build />

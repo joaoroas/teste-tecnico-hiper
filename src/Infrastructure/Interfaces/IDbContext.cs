@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace Infrastructure.DbContext
+namespace Infrastructure.Interfaces
 {
     public interface IDbContext
     {

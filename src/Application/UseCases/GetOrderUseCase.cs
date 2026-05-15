@@ -21,7 +21,7 @@ namespace Application.UseCases
                 var orders = await _orderRepository.GetOrdersAsync();
 
                 if (orders == null || !orders.Any())
-                    return Result<List<Order>>.Error("Nenhum pedido encontrado");
+                    return Result<List<Order>>.Ok("Nenhum pedido encontrado");
 
                 return Result<List<Order>>.Ok(responseData: orders);
             }

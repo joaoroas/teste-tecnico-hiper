@@ -5,7 +5,6 @@ services:
       context: .
       dockerfile: WebApi/Dockerfile
     environment:
-      - ConnectionStrings__DataAccess=Server=sqlserver;Database=teste_hiper;User Id=sa;Password=Pass@word;TrustServerCertificate=True
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
     ports:
@@ -13,6 +12,14 @@ services:
     depends_on:
       - sqlserver
       - rabbitmq
+  app-vue:
+    build:
+      context: webapi-front-end/test-tecnico-hiper
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - webapi
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:

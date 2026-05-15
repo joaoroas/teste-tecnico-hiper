@@ -1,4 +1,5 @@
-﻿using Domain.Models.Entities;
+﻿using Domain.Enums;
+using Domain.Models.Entities;
 
 namespace Domain.Interfaces.Repositories
 {
@@ -9,6 +10,7 @@ namespace Domain.Interfaces.Repositories
         Task<Order> GetOrderByIdAsync(int orderId);
         Task UpdateOrderAsync(Order order);
         Task DeleteOrderByIdAsync(int orderId);
+        Task UpdateOrderStatusAsync(int orderId, OrderStatus orderStatus);
 
     }
 }

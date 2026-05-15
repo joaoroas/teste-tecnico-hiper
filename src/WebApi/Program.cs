@@ -6,21 +6,30 @@ using Domain.Interfaces.UseCases;
 using Domain.Models.Requests;
 using FluentValidation;
 using Infrastructure.DbContext;
+using Infrastructure.Interfaces;
 using Infrastructure.Messaging.Configuration;
 using Infrastructure.Messaging.Producers;
 using Infrastructure.Repositories;
 using Infrastructure.Settings;
 using System.Text.Json.Serialization;
+using WebApi.Worker.Consumers;
+using WebApi.Worker.Interfaces;
+using WebApi.Worker.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddHostedService<OrdersConsumer>();
+
 builder.Services.AddSingleton<IDbContext, DbContext>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 builder.Services.AddScoped<IOrderProducer, OrderProducer>();
+builder.Services.AddScoped<IOrderConsumerService, OrderConsumerService>();
 
-builder.Services.AddScoped<IRabbitMqConfiguration, RabbitMqConfiguration>();
+
+builder.Services.AddSingleton<IRabbitMqConfiguration, RabbitMqConfiguration>();
 
 builder.Services.AddScoped<IAddOrderUseCase, AddOrderUseCase>();
 builder.Services.AddScoped<IGetOrderUseCase, GetOrderUseCase>();
@@ -40,6 +49,15 @@ builder.Services.AddMvc().AddJsonOptions(options =>
                        = JsonIgnoreCondition.WhenWritingNull;
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowVue",
+        policy => policy.WithOrigins("http://localhost:8080")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod());
+});
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -54,6 +72,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowVue");
 
 app.UseAuthorization();
 

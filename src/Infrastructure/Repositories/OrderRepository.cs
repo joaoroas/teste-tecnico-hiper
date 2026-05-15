@@ -1,7 +1,8 @@
 ﻿using Dapper;
+using Domain.Enums;
 using Domain.Interfaces.Repositories;
 using Domain.Models.Entities;
-using Infrastructure.DbContext;
+using Infrastructure.Interfaces;
 
 namespace Infrastructure.Repositories
 {
@@ -104,6 +105,25 @@ namespace Infrastructure.Repositories
                 using var connection = _dbContext.CreateConnection();
 
                 await connection.ExecuteAsync(sql, new { orderId });
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task UpdateOrderStatusAsync(int orderId, OrderStatus orderStatus)
+        {
+            try
+            {
+                var query = @"UPDATE Orders 
+                      SET OrderStatus = @OrderStatus
+                      WHERE OrderId = @OrderId";
+
+                using var connection = _dbContext.CreateConnection();
+
+                await connection.ExecuteAsync(query, new { OrderId = orderId, OrderStatus = orderStatus });
+
             }
             catch (Exception ex)
             {

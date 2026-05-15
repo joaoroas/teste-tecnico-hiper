@@ -1,5 +1,6 @@
 ﻿using Domain.Interfaces.Messaging;
 using Domain.Models.Messaging;
+using Infrastructure.Interfaces;
 using RabbitMQ.Client;
 using System.Text;
 using System.Text.Json;

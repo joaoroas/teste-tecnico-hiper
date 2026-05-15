@@ -28,7 +28,7 @@ namespace Application.UseCases
 
 
                 if (order.OrderStatus != OrderStatus.Received)
-                    return Result<string>.Error($"Pedido já em processamento, não pode ser atualizado.");
+                    return Result<string>.Error($"Pedido já em processamento, não pode ser excluido.");
 
 
                 await _orderRepository.DeleteOrderByIdAsync(orderId);
